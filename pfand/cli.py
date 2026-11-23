@@ -1,10 +1,12 @@
 """The command line of Pfand-Profi.   python -m pfand --help"""
 import argparse
+import sys
 
 from .bon import format_bon
 from .money import format_eur
 from .rates import LABELS, RATES
 from .receipt import read_bon, refund
+from .share import parse_names, split_cents
 
 
 def cmd_raten(args):
@@ -25,6 +27,19 @@ def cmd_bon(args):
     return 0
 
 
+def cmd_teilen(args):
+    try:
+        names = parse_names(args.wg)
+    except ValueError as error:
+        print(f"Fehler: {error}", file=sys.stderr)
+        return 1
+    total = refund(read_bon(args.datei))
+    print(f"Gesamt-Pfand: {format_eur(total)}")
+    for name, share in zip(names, split_cents(total, len(names))):
+        print(f"{name}: {format_eur(share)}")
+    return 0
+
+
 def build_parser():
     parser = argparse.ArgumentParser(prog="pfand", description="Pfand-Profi: dein Flaschen-Assistent")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -35,6 +50,10 @@ def build_parser():
     p = sub.add_parser("bon", help="drucke einen Pfandbon für eine CSV-Liste")
     p.add_argument("datei", help="CSV-Datei mit Art;Anzahl;Bemerkung")
     p.set_defaults(func=cmd_bon)
+    p = sub.add_parser("teilen", help="teile das Pfand fair in der WG")
+    p.add_argument("datei", help="CSV-Datei mit Art;Anzahl;Bemerkung")
+    p.add_argument("--wg", required=True, help="Namen mit Komma, zum Beispiel Anna,Ben,Cem")
+    p.set_defaults(func=cmd_teilen)
     return parser
 
 
