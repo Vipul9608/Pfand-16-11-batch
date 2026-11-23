@@ -10,8 +10,9 @@ def read_bon(path):
     Columns: Art;Anzahl;Bemerkung    Returns a list like [("einweg", 24), ("kasten_bier", 1)].
     """
     items = []
-    with open(path, newline="") as f:
-        for row in csv.DictReader(f):
+    # Excel in Germany saves CSV with semicolons and a UTF-8 BOM.
+    with open(path, newline="", encoding="utf-8-sig") as f:
+        for row in csv.DictReader(f, delimiter=";"):
             items.append((row["Art"], int(row["Anzahl"])))
     return items
 

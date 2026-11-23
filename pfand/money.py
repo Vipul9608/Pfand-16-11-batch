@@ -7,7 +7,8 @@ def format_eur(cents):
     125 -> '1,25 €'     1234567 -> '12.345,67 €'
     """
     euros, rest = divmod(cents, 100)
-    return f"{euros},{rest:02d} €"
+    euros_text = f"{euros:,}".replace(",", ".")
+    return f"{euros_text},{rest:02d} €"
 
 
 def parse_eur(text):
@@ -18,5 +19,5 @@ def parse_eur(text):
     t = text.replace("€", "").strip().replace(".", "")
     if "," in t:
         euros, cents = t.split(",")
-        return int(euros) * 100 + int(cents)
+        return int(euros) * 100 + int(cents.ljust(2, "0"))
     return int(t) * 100
