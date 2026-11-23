@@ -1,6 +1,7 @@
 """The command line of Pfand-Profi.   python -m pfand --help"""
 import argparse
 
+from .bon import format_bon
 from .money import format_eur
 from .rates import LABELS, RATES
 from .receipt import read_bon, refund
@@ -19,6 +20,11 @@ def cmd_refund(args):
     return 0
 
 
+def cmd_bon(args):
+    print(format_bon(read_bon(args.datei)))
+    return 0
+
+
 def build_parser():
     parser = argparse.ArgumentParser(prog="pfand", description="Pfand-Profi: dein Flaschen-Assistent")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -26,6 +32,9 @@ def build_parser():
     p = sub.add_parser("refund", help="berechne die Summe für eine CSV-Liste")
     p.add_argument("datei", help="CSV-Datei mit Art;Anzahl;Bemerkung")
     p.set_defaults(func=cmd_refund)
+    p = sub.add_parser("bon", help="drucke einen Pfandbon für eine CSV-Liste")
+    p.add_argument("datei", help="CSV-Datei mit Art;Anzahl;Bemerkung")
+    p.set_defaults(func=cmd_bon)
     return parser
 
 

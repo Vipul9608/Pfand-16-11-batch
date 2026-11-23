@@ -17,9 +17,14 @@ LABELS = {
 }
 
 
+def normalize_kind(kind):
+    """The RATES key for a kind. Capital letters and spaces do not matter."""
+    return str(kind).strip().lower()
+
+
 def rate_for(kind):
     """Pfand for one item of this kind, in cents. Capital letters and spaces do not matter."""
-    key = str(kind).strip().lower()
+    key = normalize_kind(kind)
     if key not in RATES:
         raise ValueError(f"Unbekannte Pfandart: {kind!r}")
     return RATES[key]
