@@ -1,0 +1,9 @@
+{
+ "hashes": {
+  "tests/test_money.py": "ab7e6c681788cbcaf86278e2230cedbb6baa11915cefb996231fdd2b6e19dbd7",
+  "tests/test_rates.py": "1cbab73fc5098afea3e933f30f9b27782b43990bc0fe6a5bbf1de9842216a1ce",
+  "tests/test_receipt.py": "2f874939ad44a5dc0bca3e4fea3fe679235e902887da504a380c21da0f31b671",
+  "tests/test_cli.py": "f94a6aba7b4aa288c64fe9127b31c80814701d054b2a2f1cafb317955aec500e"
+ },
+ "baseline_tests": 15
+}
