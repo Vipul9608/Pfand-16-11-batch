@@ -21,5 +21,7 @@ def refund(items):
     """Total Pfand in cents for a list of (kind, count) pairs."""
     total = 0
     for kind, count in items:
+        if count < 0:
+            raise ValueError(f"Anzahl darf nicht negativ sein: {kind} {count}")
         total += rate_for(kind) * count
     return total
