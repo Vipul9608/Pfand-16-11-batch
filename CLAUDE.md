@@ -13,5 +13,6 @@ Standard library only. Entry point: `python3 -m pfand` (see `pfand/cli.py`).
 - CSV files use `;`, German numbers, and UTF-8 with BOM (`encoding="utf-8-sig"`).
 - Never edit the original tests (test_money, test_rates, test_receipt, test_cli): fix the code.
 - New features go in a new module with a new test file, and a CLI subcommand in `cli.py`.
+- Splitting money must add up to the total exactly: use divmod and hand out the rest cents, never round.
 - Every bug fix needs a new test.
 - Commit messages: imperative, one line.
